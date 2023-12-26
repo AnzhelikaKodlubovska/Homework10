@@ -2,10 +2,15 @@ from collections import UserDict
 
 class Field:
     def __init__(self, value):
+        if not self.is_valid(value):
+            raise ValueError("Invalid value")
         self.value = value
 
     def __str__(self):
         return str(self.value)
+
+    def is_valid(self, value):
+        return True
 
 
 class Name(Field):
@@ -13,13 +18,8 @@ class Name(Field):
 
 
 class Phone(Field):
-    def __init__(self, value):
-        super().__init__(value)
-        self.validate_phone()
-
-    def validate_phone(self):
-        if not (len(str(self.value)) == 10 and str(self.value).isdigit()):
-            raise ValueError("Invalid phone number format")
+    def is_valid(self, value):
+        return len(str(value)) == 10 and str(value).isdigit()
 
 
 class Record:
